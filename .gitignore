@@ -1,0 +1,6 @@
+.DS_Store
+logs/*
+*.log
+tmp
+node_modules
+app/bower_components
