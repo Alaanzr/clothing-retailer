@@ -48,6 +48,7 @@ describe('ItemCtrl', function() {
     });
 
       describe('Adding Items', function() {
+
         beforeEach(function() {
           item1 = {productName: 'Suede Shoes, Blue', category: 'Women\'s Footwear', price: 42.00, quantityInStock: 4}
           scope.addItem(item1);
@@ -63,6 +64,29 @@ describe('ItemCtrl', function() {
 
         it('should reduce the quantityInStock for the associated item', function() {
           expect(item1.quantityInStock).toBe(3);
+        });
+
+        describe('Removing Items', function() {
+
+          beforeEach(function() {
+            scope.removeItem(item1);
+          });
+
+          it('should remove the relevant item from the cart', function() {
+            expect(scope.cart.length).toBe(0);
+          });
+
+          it('should reduce the order total', function() {
+            expect(scope.total).toBe(0);
+          });
+
+          it('should revert the item\'s quantityInStock back to its original value', function() {
+            expect(item1.quantityInStock).toBe(4);
+          });
+
+          it('should revert the item quantity back to 0', function() {
+            expect(item1.quantity).toBe(0);
+          });
         });
       });
     });

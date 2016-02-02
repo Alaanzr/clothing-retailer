@@ -28,7 +28,7 @@
 
     <div class="container">
       <div class="row">
-        <ul class="list-group col-md-9">
+        <ul class="items list-group col-md-9">
           <li class="list-group-item col-md-4" ng-repeat="item in items">
             <p ng-bind="item.productName"></p>
             <p ng-bind-template="£{{item.price.toFixed(2)}}"></p>
@@ -40,9 +40,10 @@
         </ul>
         <div class="cart col-md-3">
           <h2>Cart</h2>
-          <ul class="cart-items">
-            <li ng-repeat="item in cart track by $index">
-              <p ng-bind-template="&#8226 {{item.productName}} x {{item.quantity}}"></p>
+          <ul class="cart-items list-group">
+            <li class="list-group-item" ng-repeat="item in cart track by $index">
+              <p ng-bind-template="{{item.productName}} x {{item.quantity}}"></p>
+              <button class="btn btn-warning" ng-click=removeItem(item)> Remove from cart </button>
             </li>
           </ul>
           <div class="cart-total">

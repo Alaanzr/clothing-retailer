@@ -1,4 +1,5 @@
 retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
+
   $scope.items = Item.query();
   $scope.total = 0;
 
@@ -8,8 +9,14 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
     if(item.quantityInStock > 0) {
       $scope.total += item.price;
       item.quantityInStock -=1;
-      $scope.modifyCart(item);
+      $scope.modifyCartAdd(item);
     };
+  };
+
+  $scope.removeItem = function(item) {
+    var index = $scope.cart.indexOf(item);
+    $scope.cart.splice(index, 1);
+    $scope.modifyCartRm(item);
   };
 
   $scope.isInStock = function(item) {
@@ -26,12 +33,18 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
     };
   };
 
-  $scope.modifyCart = function(item) {
+  $scope.modifyCartAdd = function(item) {
     if ($scope.isInCart(item)) {
       item.quantity += 1;
     } else {
       item.quantity = 1;
       $scope.cart.push(item);
     }
+  };
+
+  $scope.modifyCartRm = function(item) {
+    item.quantityInStock += item.quantity;
+    $scope.total -= item.price * item.quantity;
+    item.quantity = 0;
   };
 }]);
