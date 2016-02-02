@@ -28,4 +28,12 @@ describe('Retailer App', function() {
   it('should display the correct price', function() {
     expect(retrieveData('price')).toEqual('£99.00');
   })
+
+  it('should display the correct category', function() {
+    expect(retrieveData('category')).toEqual('Women\'s Footwear');
+  })
+
+  it('should display the correct quantity', function() {
+    expect(retrieveData('quantityInStock')).toEqual('5');
+  })
 });
