@@ -12,6 +12,7 @@
     <script src="js/itemService.js"></script>
   </head>
   <body ng-controller="ItemCtrl">
+
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -26,14 +27,30 @@
     </nav>
 
     <div class="container">
-      <ul class="list-group items">
-        <li class="list-group-item" ng-repeat="item in items">
-          <p ng-bind="item.productName"></p>
-          <p ng-bind="item.price"></p>
-          <p ng-bind="item.category"></p>
-          <p ng-bind="item.quantityInStock"></p>
-        </li>
-      </ul>
+      <div class="row">
+        <ul class="list-group col-md-9">
+          <li class="list-group-item col-md-4" ng-repeat="item in items">
+            <p ng-bind="item.productName"></p>
+            <p ng-bind-template="£{{item.price.toFixed(2)}}"></p>
+            <p ng-bind="item.category"></p>
+            <p ng-bind="item.quantityInStock"></p>
+            <button class="btn btn-danger" ng-click="addItem(item)" ng-show="isInStock(item)"> Add to basket</button>
+            <button class="btn btn-danger" ng-hide="isInStock(item)"> Out of Stock</button>
+          </li>
+        </ul>
+        <div class="cart col-md-3">
+          <h2>Cart</h2>
+          <ul class="cart-items">
+            <li ng-repeat="item in cart track by $index">
+              <p ng-bind-template="&#8226 {{item.productName}} x {{item.quantity}}"></p>
+            </li>
+          </ul>
+          <div class="cart-total">
+            <p>Total: <span>£{{total.toFixed(2)}}</span></p>
+          </div>
+          <a href="#" class="btn btn-default">Checkout</a>
+        </div>
+      </div>
     </div>
   </body>
 </html>

@@ -1,6 +1,7 @@
 describe('ItemCtrl', function() {
 
   var scope, ctrl, $httpBackend;
+  var item1 = {productName: 'Suede Shoes, Blue', category: 'Women\'s Footwear', price: 42.00, quantityInStock: 4}
 
   beforeEach(function() {
     jasmine.addMatchers({
@@ -20,9 +21,7 @@ describe('ItemCtrl', function() {
 
   beforeEach(inject(function($rootScope, $controller, _$httpBackend_) {
     $httpBackend = _$httpBackend_;
-    $httpBackend.expectGET('items/items.json').respond([
-      {productName: 'Suede Shoes, Blue', category: 'Women\'s Footwear'}
-    ]);
+    $httpBackend.expectGET('items/items.json').respond([item1]);
     scope = $rootScope.$new();
     ctrl = $controller('ItemCtrl', {$scope:scope});
   }));
@@ -34,7 +33,37 @@ describe('ItemCtrl', function() {
   it('should contain item data after calling the Item Service', function() {
     $httpBackend.flush();
     expect(scope.items).toEqualData([
-      {productName: 'Suede Shoes, Blue', category: 'Women\'s Footwear'}
+      item1
     ])
   });
+
+  describe('Cart functionality', function() {
+
+    it('should not show items in the cart prior to adding said item', function() {
+      expect(scope.cart).toEqualData([]);
+    });
+
+    it('should have a total of £0.00 initially', function() {
+      expect(scope.total).toBe(0);
+    });
+
+      describe('Adding Items', function() {
+        beforeEach(function() {
+          item1 = {productName: 'Suede Shoes, Blue', category: 'Women\'s Footwear', price: 42.00, quantityInStock: 4}
+          scope.addItem(item1);
+        });
+
+        it('should show items in the cart after adding said item', function() {
+          expect(scope.cart).toEqualData([item1]);
+        });
+
+        it('should add to the customer\'s total', function() {
+          expect(scope.total).toBe(42);
+        });
+
+        it('should reduce the quantityInStock for the associated item', function() {
+          expect(item1.quantityInStock).toBe(3);
+        });
+      });
+    });
 });

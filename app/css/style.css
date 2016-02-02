@@ -1,3 +1,31 @@
 .navbar {
   border-radius: 0;
 }
+
+.cart {
+  background-image: -webkit-linear-gradient(top, #d9534f 0%, #c12e2a 100%);
+  background-image:      -o-linear-gradient(top, #d9534f 0%, #c12e2a 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#d9534f), to(#c12e2a));
+  background-image:         linear-gradient(to bottom, #d9534f 0%, #c12e2a 100%);
+  color: #fff;
+  padding: 1em;
+  height: 100%;
+}
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+}
+
+.list-group-item {
+  margin: 0.1em;
+  min-height: 15em;
+  max-height: 15em;
+  min-width: 15em;
+  max-width: 15em;
+}
+
+.list-group-item .btn {
+  position: absolute;
+  bottom: 1em;
+}
