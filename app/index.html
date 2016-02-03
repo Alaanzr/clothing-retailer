@@ -16,11 +16,10 @@
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Clothing Retailer</a>
+          <a class="navbar-brand" href="#"> CLOTHING RETAILER</a>
         </div>
         <div>
           <ul class="nav navbar-nav">
-            <li><a href="#">Home</a></li>
           </ul>
         </div>
       </div>
@@ -37,7 +36,7 @@
               <p ng-bind="item.category"></p>
               <p ng-bind="item.quantityInStock"></p>
               <button class="btn btn-danger" ng-click="addItem(item)" ng-show="isInStock(item)"> Add to basket</button>
-              <button class="btn btn-danger" ng-hide="isInStock(item)"> Out of Stock</button>
+              <button class="btn btn-danger" ng-hide="isInStock(item)" data-ng-disabled="true"> Out of Stock</button>
             </li>
           </ul>
           <div class="cart col-md-3">
@@ -45,14 +44,16 @@
             <ul class="cart-items list-group">
               <li class="list-group-item" ng-repeat="item in cart track by $index">
                 <span ng-bind-template="{{item.productName}} x "></span><span ng-bind="item.quantity"></span><br>
-                <button class="btn btn-info" ng-click=removeItem(item)> Remove from cart </button>
+                <button class="btn btn-info btn-block" ng-click=removeItem(item)> Remove from cart </button>
               </li>
             </ul>
             <hr>
+            <input type="text" placeholder="Insert voucher code">&nbsp
+            <button class="btn btn-default btn-block" type="button">Redeem Voucher</button><br><br>
             <div class="cart-total">
-              <p class="heading">Total: </p> <p class="sub-heading">£{{total.toFixed(2)}}</p></p>
+              <p class="heading">Total: </p> <p class="sub-heading">£{{total.toFixed(2)}}</p>
             </div>
-            <a href="#" class="btn btn-default">Checkout</a>
+            <a href="#" class="btn btn-default btn-block" data-ng-disabled="cart.length === 0">Checkout</a>
           </div>
         </div>
       </div>

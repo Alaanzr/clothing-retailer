@@ -32,6 +32,11 @@
   margin-bottom: 0.5em;
 }
 
+.cart input {
+  color: #000;
+  width: 100%;
+}
+
 .img {
   opacity: 0.9;
   width: 100%;
