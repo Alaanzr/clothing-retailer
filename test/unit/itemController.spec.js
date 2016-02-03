@@ -85,7 +85,7 @@ describe('ItemCtrl', function() {
           });
 
           it('should revert the item quantity back to 0', function() {
-            expect(item1.quantity).toBe(0);
+            expect(item1.quantityInCart).toBe(0);
           });
         });
       });
