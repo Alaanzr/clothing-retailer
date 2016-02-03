@@ -48,8 +48,8 @@
               </li>
             </ul>
             <hr>
-            <input type="text" placeholder="Insert voucher code">&nbsp
-            <button class="btn btn-default btn-block" type="button">Redeem Voucher</button><br><br>
+            <input type="text" placeholder="Insert voucher code" ng-model="discountCode">&nbsp
+            <button class="btn btn-default btn-block" type="button" ng-click=applyDiscount(discountCode)>Redeem Voucher</button><br><br>
             <div class="cart-total">
               <p class="heading">Total: </p> <p class="sub-heading">£{{total.toFixed(2)}}</p>
             </div>

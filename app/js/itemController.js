@@ -2,9 +2,9 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
 
   $scope.items = Item.query();
   $scope.total = 0;
+  $scope.discount = 0;
   $scope.cart = [];
   $scope.categoriesInCart = [];
-  $scope.discountActive = false;
 
   $scope.addItem = function(item) {
     $scope.modifyItemPropsAdd(item);
@@ -18,7 +18,24 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
 
   $scope.isInStock = function(item) {
     return item.quantityInStock > 0 ? true : false;
-  }
+  };
+
+  $scope.applyDiscount = function(code) {
+    var discountConditions = {'FIVE': true, 'TEN': $scope.total > 50, 'FIFTEEN': $scope.total > 75 && $scope.reviewCartCategories('Men\'s Footwear', 'Women\'s Footwear')};
+    if (discountConditions.hasOwnProperty(code)) {
+      for (var key in discountConditions) {
+        if (key === code) {
+          if (discountConditions[code] === true && $scope.discount === 0) {
+            if ($scope.total > 5 * (Object.keys(discountConditions).indexOf(code) + 1)) {
+              $scope.discount += 5 * (Object.keys(discountConditions).indexOf(code) + 1);
+              $scope.total -= 5 * (Object.keys(discountConditions).indexOf(code) + 1);
+              $scope.discountCode = '';
+            };
+          };
+        }
+      };
+    };
+  };
 
   // PRIVATE
 
@@ -35,7 +52,8 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
 
   $scope.modifyCartRm = function(item) {
     $scope.cart.splice($scope.cart.indexOf(item), 1);
-    $scope.total -= item.price * item.quantityInCart;
+    $scope.total -= (item.price * item.quantityInCart) - $scope.discount;
+    $scope.discount = 0;
   };
 
   $scope.modifyItemPropsRm = function(item) {
