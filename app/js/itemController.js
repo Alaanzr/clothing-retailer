@@ -41,13 +41,13 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
 
   $scope.modifyItemPropsAdd = function(item) {
     item.quantityInStock -=1;
-    $scope.isInCart(item) ? item.quantityInCard += 1 : item.quantityInCart = 1;
+    $scope.isInCart(item) ? item.quantityInCart += 1 : item.quantityInCart = 1;
   };
 
   $scope.modifyCartAdd = function(item) {
       $scope.total += item.price;
       $scope.categoriesInCart.push(item.category);
-      $scope.cart.push(item);
+      if (!$scope.isInCart(item)) $scope.cart.push(item);
   };
 
   $scope.modifyCartRm = function(item) {

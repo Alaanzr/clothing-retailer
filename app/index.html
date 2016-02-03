@@ -43,7 +43,7 @@
             <h2 class="heading">Cart</h2>
             <ul class="cart-items list-group">
               <li class="list-group-item" ng-repeat="item in cart track by $index">
-                <span ng-bind-template="{{item.productName}} x "></span><span ng-bind="item.quantity"></span><br>
+                <span ng-bind-template="{{item.productName}} x "></span><span ng-bind="item.quantityInCart"></span><br>
                 <button class="btn btn-info btn-block" ng-click=removeItem(item)> Remove from cart </button>
               </li>
             </ul>
