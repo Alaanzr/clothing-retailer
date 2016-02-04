@@ -71,7 +71,6 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
   $scope.applyDiscount = function(discountInfo, key) {
     var discount = discountInfo[key].discount;
     if ($scope.total > discount && $scope.discount === 0) {
-      $scope.xx.push(discount);
       $scope.discount += discount;
       $scope.total -= discount;
       $scope.discountCode = '';
