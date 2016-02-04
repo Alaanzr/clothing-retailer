@@ -163,7 +163,7 @@ describe('ItemCtrl', function() {
         expect(scope.total).toBe(167);
       });
 
-      it('should not allow the discount to persist when a user adds and remove an item', function() {
+      it('should not allow the discount to persist when a user adds an item, applies a discount and then removes the item', function() {
         scope.addItem(item1);
         scope.processDiscount('FIVE');
         scope.removeItem(item1);

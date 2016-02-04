@@ -48,11 +48,10 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', 'Discount', function($scop
   $scope.modifyCartRm = function(item) {
     $scope.cart.splice($scope.cart.indexOf(item), 1);
     $scope.categoriesInCart.splice($scope.categoriesInCart.indexOf(item.category), 1);
+    $scope.total -= (item.price * item.quantityOrdered);
     if ($scope.discount > 0 && $scope.verifyDiscount() !== true) {
-      $scope.total -= (item.price * item.quantityOrdered) - $scope.discount;
+      $scope.total += $scope.discount;
       $scope.discount = 0;
-    } else {
-      $scope.total -= (item.price * item.quantityOrdered);
     }
   };
 
