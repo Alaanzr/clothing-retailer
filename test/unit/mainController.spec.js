@@ -193,16 +193,15 @@ describe('MainCtrl', function() {
 
       beforeEach(function() {
         item1.quantityInStock = 4;
+        scope.addItem(item1);
       });
 
       it('should contain an error when an invalid code is used', function() {
-        scope.addItem(item1);
         scope.processDiscount('INVALID');
         expect(scope.errors[0]).toBe('Invalid code');
       });
 
       it('should contain an error when a user attempts to redeem more than one code', function() {
-        scope.addItem(item1);
         scope.processDiscount('FIVE');
         scope.processDiscount('TEN');
         expect(scope.errors[0]).toBe('You have already redeemed a code');
