@@ -1,4 +1,4 @@
-describe('ItemCtrl', function() {
+describe('MainCtrl', function() {
 
   var scope, ctrl, $httpBackend;
   var item1 = {
@@ -35,7 +35,7 @@ describe('ItemCtrl', function() {
     $httpBackend = _$httpBackend_;
     $httpBackend.expectGET('items/items.json').respond([item1]);
     scope = $rootScope.$new();
-    ctrl = $controller('ItemCtrl', {
+    ctrl = $controller('MainCtrl', {
       $scope: scope
     });
   }));
@@ -190,11 +190,6 @@ describe('ItemCtrl', function() {
     });
 
     describe('Error reporting', function() {
-
-      it('should have no errors initially', function() {
-        expect(scope.errors.length).toBe(0);
-      });
-
 
       it('should contain an error when an invalid code is used', function() {
         scope.addItem(item1);
