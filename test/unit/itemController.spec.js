@@ -7,6 +7,12 @@ describe('ItemCtrl', function() {
     price: 42.00,
     quantityInStock: 4
   };
+  var item3 = {
+    productName: 'Suede Shoes, Blue',
+    category: 'Women\'s Footwear',
+    price: 100.00,
+    quantityInStock: 4
+  };
   var item2;
 
   beforeEach(function() {
@@ -98,7 +104,7 @@ describe('ItemCtrl', function() {
         });
 
         it('should revert the item quantity back to 0', function() {
-          expect(item1.quantityInCart).toBe(0);
+          expect(item1.quantityOrdered).toBe(0);
         });
       });
     });
@@ -148,12 +154,22 @@ describe('ItemCtrl', function() {
         expect(scope.total).toBe(194);
       });
 
-      it('should not allow the discount to persist when a user removes an item from their cart', function() {
+      it('should not allow the discount to persist when a user removes an item from their cart that invalidates the voucher', function() {
         scope.addItem(item1);
-        scope.processDiscount('FIVE');
+        scope.addItem(item2);
+        scope.processDiscount('FIFTEEN');
         scope.removeItem(item1);
         expect(scope.discount).toBe(0);
-        expect(scope.total).toBe(0);
+        expect(scope.total).toBe(167);
+      });
+
+      it('should allow the discount to persist when a user removes an item from their cart that does not invalidate the voucher', function() {
+        scope.addItem(item3);
+        scope.addItem(item2);
+        scope.processDiscount('FIFTEEN');
+        scope.removeItem(item2);
+        expect(scope.discount).toBe(15);
+        expect(scope.total).toBe(85);
       });
 
       it('should not allow multiple discounts', function() {
@@ -162,6 +178,27 @@ describe('ItemCtrl', function() {
         scope.processDiscount('FIVE');
         expect(scope.discount).toBe(5);
         expect(scope.total).toBe(37);
+      });
+    });
+
+    describe('Error reporting', function() {
+
+      it('should have no errors initially', function() {
+        expect(scope.errors.length).toBe(0);
+      });
+
+
+      it('should contain an error when an invalid code is used', function() {
+        scope.addItem(item1);
+        scope.processDiscount('INVALID');
+        expect(scope.errors[0]).toBe('Invalid code');
+      });
+
+      it('should contain an error when a user attempts to redeem more than one code', function() {
+        scope.addItem(item1);
+        scope.processDiscount('FIVE');
+        scope.processDiscount('TEN');
+        expect(scope.errors[0]).toBe('You have already redeemed a code');
       });
     });
   });

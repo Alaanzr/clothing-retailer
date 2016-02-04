@@ -5,6 +5,8 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
   $scope.discount = 0;
   $scope.cart = [];
   $scope.categoriesInCart = [];
+  $scope.errors = [];
+  $scope.activeDiscount = '';
 
   $scope.addItem = function(item) {
     $scope.modifyItemPropsAdd(item);
@@ -22,10 +24,11 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
 
   $scope.processDiscount = function(code) {
     var discountInfo = $scope.retrieveDiscountInfo();
+    $scope.processErrors(code, discountInfo);
     for (var key in discountInfo) {
       if (code === key && discountInfo[key].condition) {
         $scope.applyDiscount(discountInfo, key);
-      };
+      }
     };
   };
 
@@ -33,7 +36,7 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
 
   $scope.modifyItemPropsAdd = function(item) {
     item.quantityInStock -= 1;
-    $scope.isInCart(item) ? item.quantityInCart += 1 : item.quantityInCart = 1;
+    $scope.isInCart(item) ? item.quantityOrdered += 1 : item.quantityOrdered = 1;
   };
 
   $scope.modifyCartAdd = function(item) {
@@ -44,13 +47,18 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
 
   $scope.modifyCartRm = function(item) {
     $scope.cart.splice($scope.cart.indexOf(item), 1);
-    $scope.total -= (item.price * item.quantityInCart) - $scope.discount;
-    $scope.discount = 0;
+    $scope.categoriesInCart.splice($scope.categoriesInCart.indexOf(item.category), 1);
+    if ($scope.discount > 0 && $scope.verifyDiscount() !== true) {
+      $scope.total -= (item.price * item.quantityOrdered) - $scope.discount;
+      $scope.discount = 0;
+    } else {
+      $scope.total -= (item.price * item.quantityOrdered);
+    }
   };
 
   $scope.modifyItemPropsRm = function(item) {
-    item.quantityInStock += item.quantityInCart;
-    item.quantityInCart = 0;
+    item.quantityInStock += item.quantityOrdered;
+    item.quantityOrdered = 0;
   };
 
   $scope.isInCart = function(item) {
@@ -73,6 +81,7 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
     if ($scope.total > discount && $scope.discount === 0) {
       $scope.discount += discount;
       $scope.total -= discount;
+      $scope.activeDiscount = key;
       $scope.discountCode = '';
     }
   };
@@ -92,5 +101,16 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
         discount: 15
       }
     };
+  };
+
+  $scope.processErrors = function(code, discountInfo) {
+    $scope.errors = [];
+    if (Object.keys(discountInfo).indexOf(code) === -1) $scope.errors.push('Invalid code');
+    if ($scope.discount > 0) $scope.errors.push('You have already redeemed a code');
+  };
+
+  $scope.verifyDiscount = function() {
+    var discountInfo = $scope.retrieveDiscountInfo();
+    if (discountInfo[$scope.activeDiscount].condition === true) return true;
   };
 }]);
