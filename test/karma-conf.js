@@ -14,11 +14,9 @@ module.exports = function(config) {
       '../test/**/*.spec.js'
     ],
 
-    exclude: [
-    ],
+    exclude: [],
 
-    preprocessors: {
-    },
+    preprocessors: {},
 
     reporters: ['progress'],
 
@@ -36,4 +34,5 @@ module.exports = function(config) {
 
     concurrency: Infinity
   })
+
 }

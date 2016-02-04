@@ -84,4 +84,5 @@ retailerApp.controller('MainCtrl', ['$scope', 'Item', 'Discount', function($scop
     if (Object.keys(discountInfo).indexOf(code) === -1) $scope.errors.push('Invalid code');
     if ($scope.discount > 0) $scope.errors.push('You have already redeemed a code');
   };
+
 }]);

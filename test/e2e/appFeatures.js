@@ -23,7 +23,7 @@ describe('Retailer App', function() {
 
   it('should display the correct product name', function() {
     expect(retrieveData('productName')).toEqual('Almond Toe Court Shoes, Patent Black');
-    });
+  });
 
   it('should display the correct price', function() {
     expect(retrieveData('price')).toEqual('£99.00');
@@ -36,4 +36,5 @@ describe('Retailer App', function() {
   it('should display the correct quantity', function() {
     expect(retrieveData('quantityInStock')).toEqual('5');
   })
+
 });

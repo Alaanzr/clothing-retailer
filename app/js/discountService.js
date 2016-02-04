@@ -27,4 +27,5 @@ retailerApp.factory('Discount', function() {
   };
 
   return discountFactory;
+
 });

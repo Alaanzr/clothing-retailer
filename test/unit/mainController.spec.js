@@ -1,13 +1,21 @@
 describe('MainCtrl', function() {
 
   var scope, ctrl, $httpBackend;
+
   var item1 = {
     productName: 'Suede Shoes, Blue',
     category: 'Women\'s Footwear',
     price: 42.00,
     quantityInStock: 4
   };
-  var item2;
+
+  var item2 = {
+    productName: 'Gold Button Cardigan, Black',
+    category: 'Women\'s Casualwear',
+    price: 167.00,
+    quantityInStock: 6
+  }
+
   var item3 = {
     productName: 'Suede Shoes, Blue',
     category: 'Women\'s Footwear',
@@ -64,12 +72,7 @@ describe('MainCtrl', function() {
     describe('Adding Items', function() {
 
       beforeEach(function() {
-        item1 = {
-          productName: 'Suede Shoes, Blue',
-          category: 'Women\'s Footwear',
-          price: 42.00,
-          quantityInStock: 4
-        }
+        item1.quantityInStock = 4;
         scope.addItem(item1);
       });
 
@@ -112,12 +115,9 @@ describe('MainCtrl', function() {
     describe('Applying Discounts', function() {
 
       beforeEach(function() {
-        item2 = {
-          productName: 'Gold Button Cardigan, Black',
-          category: 'Women\'s Casualwear',
-          price: 167.00,
-          quantityInStock: 6
-        }
+        item1.quantityInStock = 4;
+        item2.quantityInStock = 6;
+        item3.quantityInStock = 4;
       });
 
       it('should not allow the user to apply a discount when their order total is £0', function() {
@@ -190,6 +190,10 @@ describe('MainCtrl', function() {
     });
 
     describe('Error reporting', function() {
+
+      beforeEach(function() {
+        item1.quantityInStock = 4;
+      });
 
       it('should contain an error when an invalid code is used', function() {
         scope.addItem(item1);
