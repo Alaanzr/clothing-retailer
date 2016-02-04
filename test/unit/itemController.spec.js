@@ -7,13 +7,13 @@ describe('ItemCtrl', function() {
     price: 42.00,
     quantityInStock: 4
   };
+  var item2;
   var item3 = {
     productName: 'Suede Shoes, Blue',
     category: 'Women\'s Footwear',
     price: 100.00,
     quantityInStock: 4
   };
-  var item2;
 
   beforeEach(function() {
     jasmine.addMatchers({
@@ -161,6 +161,14 @@ describe('ItemCtrl', function() {
         scope.removeItem(item1);
         expect(scope.discount).toBe(0);
         expect(scope.total).toBe(167);
+      });
+
+      it('should not allow the discount to persist when a user adds and remove an item', function() {
+        scope.addItem(item1);
+        scope.processDiscount('FIVE');
+        scope.removeItem(item1);
+        expect(scope.discount).toBe(0);
+        expect(scope.total).toBe(0);
       });
 
       it('should allow the discount to persist when a user removes an item from their cart that does not invalidate the voucher', function() {

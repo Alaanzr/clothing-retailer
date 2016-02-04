@@ -1,4 +1,4 @@
-retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
+retailerApp.controller('ItemCtrl', ['$scope', 'Item', 'Discount', function($scope, Item, Discount) {
 
   $scope.items = Item.query();
   $scope.total = 0;
@@ -23,7 +23,7 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
   };
 
   $scope.processDiscount = function(code) {
-    var discountInfo = $scope.retrieveDiscountInfo();
+    var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
     $scope.processErrors(code, discountInfo);
     for (var key in discountInfo) {
       if (code === key && discountInfo[key].condition) {
@@ -69,13 +69,6 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
     };
   };
 
-  $scope.reviewCartCategories = function() {
-    var args = Array.prototype.slice.call(arguments, 0);
-    return $scope.categoriesInCart.some(function(elm) {
-      return args.indexOf(elm) !== -1;
-    });
-  };
-
   $scope.applyDiscount = function(discountInfo, key) {
     var discount = discountInfo[key].discount;
     if ($scope.total > discount && $scope.discount === 0) {
@@ -86,23 +79,6 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
     }
   };
 
-  $scope.retrieveDiscountInfo = function() {
-    return {
-      'FIVE': {
-        condition: true,
-        discount: 5
-      },
-      'TEN': {
-        condition: $scope.total > 50,
-        discount: 10
-      },
-      'FIFTEEN': {
-        condition: $scope.total > 75 && $scope.reviewCartCategories('Men\'s Footwear', 'Women\'s Footwear'),
-        discount: 15
-      }
-    };
-  };
-
   $scope.processErrors = function(code, discountInfo) {
     $scope.errors = [];
     if (Object.keys(discountInfo).indexOf(code) === -1) $scope.errors.push('Invalid code');
@@ -110,7 +86,7 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
   };
 
   $scope.verifyDiscount = function() {
-    var discountInfo = $scope.retrieveDiscountInfo();
+    var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
     if (discountInfo[$scope.activeDiscount].condition === true) return true;
   };
 }]);
