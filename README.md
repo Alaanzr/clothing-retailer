@@ -39,9 +39,6 @@ Karma will continue to run using the above method, so you may wish to carry out 
 ```npm run test-single-run```
 
 ### Running end to end tests
-```npm start```
-```npm run update-webdriver```
-```npm run protractor```
 
 End-to-end tests have also been written in Jasmine and utilise the Protractor test runner. Protractor simulates interaction with the app and verifies that it is responding correctly. Therefore, the web server needs to be serving up the application in order for Protractor to interact with it.
 
@@ -75,8 +72,7 @@ app ------------------------> Source files for the application
     discountService.js -----> Service for calculating discounts
     itemService.js ---------> Service for retrieving product data
     mainController.js ------> Main controller
-  partials -----------------> Intended to store partial views
-  index.html ---------------> Application layout file (main html file)
+  index.html ---------------> Application layout file (currently the only html file, i.e. there is no partials folder)
 test
   e2e ----------------------> Houses end-to-end tests
     appFeatures.js
