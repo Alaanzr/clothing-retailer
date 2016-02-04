@@ -5,6 +5,7 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
   $scope.discount = 0;
   $scope.cart = [];
   $scope.categoriesInCart = [];
+  $scope.xx = [];
 
   $scope.addItem = function(item) {
     $scope.modifyItemPropsAdd(item);
@@ -20,19 +21,24 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
     return item.quantityInStock > 0 ? true : false;
   };
 
-  $scope.applyDiscount = function(code) {
-    var discountConditions = {'FIVE': true, 'TEN': $scope.total > 50, 'FIFTEEN': $scope.total > 75 && $scope.reviewCartCategories('Men\'s Footwear', 'Women\'s Footwear')};
-    if (discountConditions.hasOwnProperty(code)) {
-      for (var key in discountConditions) {
-        if (key === code) {
-          if (discountConditions[code] === true && $scope.discount === 0) {
-            if ($scope.total > 5 * (Object.keys(discountConditions).indexOf(code) + 1)) {
-              $scope.discount += 5 * (Object.keys(discountConditions).indexOf(code) + 1);
-              $scope.total -= 5 * (Object.keys(discountConditions).indexOf(code) + 1);
-              $scope.discountCode = '';
-            };
-          };
-        }
+  $scope.processDiscount = function(code) {
+    var discountInfo = {
+      'FIVE': {
+        condition: true,
+        discount: 5
+      },
+      'TEN': {
+        condition: $scope.total > 50,
+        discount: 10
+      },
+      'FIFTEEN': {
+        condition: $scope.total > 75 && $scope.reviewCartCategories('Men\'s Footwear', 'Women\'s Footwear'),
+        discount: 15
+      }
+    };
+    for (var key in discountInfo) {
+      if (code === key && discountInfo[key].condition) {
+        $scope.applyDiscount(discountInfo, key);
       };
     };
   };
@@ -40,14 +46,14 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
   // PRIVATE
 
   $scope.modifyItemPropsAdd = function(item) {
-    item.quantityInStock -=1;
+    item.quantityInStock -= 1;
     $scope.isInCart(item) ? item.quantityInCart += 1 : item.quantityInCart = 1;
   };
 
   $scope.modifyCartAdd = function(item) {
-      $scope.total += item.price;
-      $scope.categoriesInCart.push(item.category);
-      if (!$scope.isInCart(item)) $scope.cart.push(item);
+    $scope.total += item.price;
+    $scope.categoriesInCart.push(item.category);
+    if (!$scope.isInCart(item)) $scope.cart.push(item);
   };
 
   $scope.modifyCartRm = function(item) {
@@ -65,7 +71,7 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
     for (var i = 0; i < $scope.cart.length; i++) {
       if ($scope.cart[i].productName === item.productName) {
         return $scope.cart[i].isInCart = true;
-      };
+      }
     };
   };
 
@@ -74,5 +80,15 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
     return $scope.categoriesInCart.some(function(elm) {
       return args.indexOf(elm) !== -1;
     });
+  };
+
+  $scope.applyDiscount = function(discountInfo, key) {
+    var discount = discountInfo[key].discount;
+    if ($scope.total > discount && $scope.discount === 0) {
+      $scope.xx.push(discount);
+      $scope.discount += discount;
+      $scope.total -= discount;
+      $scope.discountCode = '';
+    }
   };
 }]);

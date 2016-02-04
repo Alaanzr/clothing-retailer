@@ -115,27 +115,27 @@ describe('ItemCtrl', function() {
       });
 
       it('should not allow the user to apply a discount when their order total is £0', function() {
-        scope.applyDiscount('FIVE');
+        scope.processDiscount('FIVE');
         expect(scope.discount).toBe(0);
       });
 
       it('should apply a £5 discount when the correct code is used', function() {
         scope.addItem(item2);
-        scope.applyDiscount('FIVE');
+        scope.processDiscount('FIVE');
         expect(scope.discount).toBe(5);
         expect(scope.total).toBe(162);
       });
 
       it('should not apply a £10 discount when the order total is below £50', function() {
         scope.addItem(item1);
-        scope.applyDiscount('TEN');
+        scope.processDiscount('TEN');
         expect(scope.discount).toBe(0);
         expect(scope.total).toBe(42);
       });
 
       it('should not apply a £15 discount when the order total is below £75 and footwear is not in the user\'s cart', function() {
         scope.addItem(item2);
-        scope.applyDiscount('FIFTEEN');
+        scope.processDiscount('FIFTEEN');
         expect(scope.discount).toBe(0);
         expect(scope.total).toBe(167);
       });
@@ -143,17 +143,25 @@ describe('ItemCtrl', function() {
       it('should apply a £15 discount when the order total is above £75 and footwear is included in the user\'s cart', function() {
         scope.addItem(item1);
         scope.addItem(item2);
-        scope.applyDiscount('FIFTEEN');
+        scope.processDiscount('FIFTEEN');
         expect(scope.discount).toBe(15);
         expect(scope.total).toBe(194);
       });
 
       it('should not allow the discount to persist when a user removes an item from their cart', function() {
         scope.addItem(item1);
-        scope.applyDiscount('FIVE');
+        scope.processDiscount('FIVE');
         scope.removeItem(item1);
         expect(scope.discount).toBe(0);
         expect(scope.total).toBe(0);
+      });
+
+      it('should not allow multiple discounts', function() {
+        scope.addItem(item1);
+        scope.processDiscount('FIVE');
+        scope.processDiscount('FIVE');
+        expect(scope.discount).toBe(5);
+        expect(scope.total).toBe(37);
       });
     });
   });

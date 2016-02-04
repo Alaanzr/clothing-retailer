@@ -34,7 +34,7 @@
               <p ng-bind="item.productName"></p>
               <p ng-bind-template="£{{item.price.toFixed(2)}}"></p>
               <p ng-bind="item.category"></p>
-              <p ng-bind="item.quantityInStock"></p>
+              <p> In stock: <span ng-bind="item.quantityInStock"></span></p>
               <button class="btn btn-danger" ng-click="addItem(item)" ng-show="isInStock(item)"> Add to basket</button>
               <button class="btn btn-danger" ng-hide="isInStock(item)" data-ng-disabled="true"> Out of Stock</button>
             </li>
@@ -49,10 +49,11 @@
             </ul>
             <hr>
             <input type="text" placeholder="Insert voucher code" ng-model="discountCode">&nbsp
-            <button class="btn btn-default btn-block" type="button" ng-click=applyDiscount(discountCode)>Redeem Voucher</button><br><br>
+            <button class="btn btn-default btn-block" type="button" ng-click=processDiscount(discountCode)>Redeem Voucher</button><br><br>
             <div class="cart-total">
               <p class="heading">Total: </p> <p class="sub-heading">£{{total.toFixed(2)}}</p>
             </div>
+            {{xx}}
             <a href="#" class="btn btn-default btn-block" data-ng-disabled="cart.length === 0">Checkout</a>
           </div>
         </div>
