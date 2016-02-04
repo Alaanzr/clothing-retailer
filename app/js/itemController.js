@@ -5,7 +5,6 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
   $scope.discount = 0;
   $scope.cart = [];
   $scope.categoriesInCart = [];
-  $scope.xx = [];
 
   $scope.addItem = function(item) {
     $scope.modifyItemPropsAdd(item);
@@ -22,20 +21,7 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
   };
 
   $scope.processDiscount = function(code) {
-    var discountInfo = {
-      'FIVE': {
-        condition: true,
-        discount: 5
-      },
-      'TEN': {
-        condition: $scope.total > 50,
-        discount: 10
-      },
-      'FIFTEEN': {
-        condition: $scope.total > 75 && $scope.reviewCartCategories('Men\'s Footwear', 'Women\'s Footwear'),
-        discount: 15
-      }
-    };
+    var discountInfo = $scope.retrieveDiscountInfo();
     for (var key in discountInfo) {
       if (code === key && discountInfo[key].condition) {
         $scope.applyDiscount(discountInfo, key);
@@ -90,5 +76,22 @@ retailerApp.controller('ItemCtrl', ['$scope', 'Item', function($scope, Item) {
       $scope.total -= discount;
       $scope.discountCode = '';
     }
+  };
+
+  $scope.retrieveDiscountInfo = function() {
+    return {
+      'FIVE': {
+        condition: true,
+        discount: 5
+      },
+      'TEN': {
+        condition: $scope.total > 50,
+        discount: 10
+      },
+      'FIFTEEN': {
+        condition: $scope.total > 75 && $scope.reviewCartCategories('Men\'s Footwear', 'Women\'s Footwear'),
+        discount: 15
+      }
+    };
   };
 }]);
