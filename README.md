@@ -76,6 +76,8 @@ test
   e2e ----------------------> Houses end-to-end tests
     appFeatures.js
   unit ---------------------> Unit tests
+    discountService.spec.js
+    itemService.spec.js
     mainController.spec.js
   karma-conf.js ------------> Config file for running unit tests with Karma
   protractor-conf.js -------> Config file for running end-to-end tests
