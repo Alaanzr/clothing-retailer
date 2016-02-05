@@ -64,7 +64,6 @@ app ------------------------> Source files for the application
   css ----------------------> Stores Additional stylesheets
     style.css
   img ----------------------> Stores public images
-    placeholder.png
   items
     items.json -------------> Contains product data (utilised in place of a database)
   js
@@ -83,7 +82,6 @@ test
 .bowerrc -------------------> Config file with instructions for installing bower_components
 bower.json -----------------> Bower config file
 package.json ---------------> npm config file
-README.md
 ```
 
 ## My Approach

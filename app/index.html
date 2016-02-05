@@ -62,7 +62,7 @@
           </div>
           <div class="cart-total">
             <p class="heading">Total: </p>
-            <p class="sub-heading">£{{total.toFixed(2)}}</p>
+            <p class="sub-heading" ng-bind-template="£{{total.toFixed(2)}}"></p>
             <p class="discount" ng-show="discount > 0"> Discount applied: £<span ng-bind="discount"></span></p>
           </div>
 
