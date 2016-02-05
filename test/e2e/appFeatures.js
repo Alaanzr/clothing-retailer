@@ -1,10 +1,13 @@
 describe('Retailer App', function() {
 
   var itemList = element.all(by.repeater('item in items'));
+  var cartItems = element.all(by.repeater('item in cart'));
   var total = element(by.binding('total.toFixed(2)'));
   var addToBasket = element.all(by.buttonText('Add to basket')).first();
-  var redeemVoucher = element.all(by.buttonText('Redeem Voucher'));
+  var removeFromCart = element.all(by.buttonText('Remove from cart')).first();
+  var redeemVoucher = element(by.buttonText('Redeem Voucher'));
   var discountCode = element(by.model('discountCode'));
+  var error = element(by.repeater('error in errors').row(0));
 
   function retrieveData(type) {
     return element.all(by.repeater('item in items').column('item.' + type)).then(function(item) {
@@ -76,6 +79,39 @@ describe('Retailer App', function() {
         expect(total.getText()).toBe('£84.00');
       });
 
+      it('should raise an error when an invalid code is used', function() {
+        discountCode.sendKeys('INVALID');
+        redeemVoucher.click();
+        expect(error.getText()).toBe('Invalid code');
+      });
+
+      it('should raise an error when multiple valid codes are used', function() {
+        discountCode.sendKeys('FIVE');
+        redeemVoucher.click();
+        discountCode.sendKeys('TEN');
+        expect(error.getText()).toBe('You have already redeemed a code');
+      });
+
+    });
+
+    describe('Adding/removing items to and from the cart', function() {
+
+      beforeEach(function() {
+        addToBasket.click();
+      });
+
+      it('should show the item in the cart', function() {
+        cartItems.then(function(items) {
+          expect(items.length).toBe(1);
+        });
+      });
+
+      it('should remove an item from the cart', function() {
+        removeFromCart.click();
+        cartItems.then(function(items) {
+          expect(items.length).toBe(0);
+        });
+      });
     });
   });
 });
