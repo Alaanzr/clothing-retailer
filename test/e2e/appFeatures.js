@@ -89,6 +89,7 @@ describe('Retailer App', function() {
         discountCode.sendKeys('FIVE');
         redeemVoucher.click();
         discountCode.sendKeys('TEN');
+        redeemVoucher.click();
         expect(error.getText()).toBe('You have already redeemed a code');
       });
 

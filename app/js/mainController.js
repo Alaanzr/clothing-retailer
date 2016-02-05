@@ -23,9 +23,9 @@ retailerApp.controller('MainCtrl', ['$scope', 'Item', 'Discount', function($scop
 
   $scope.processDiscount = function(code) {
     var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
-    var isCodeValid = Object.keys(discountInfo).indexOf(code) !== -1 && discountInfo[code].condition;
-    $scope.processErrors(code, discountInfo);
-    if (isCodeValid) $scope.applyDiscount(discountInfo[code].discount, code)
+    var isCodeValid = Object.keys(discountInfo).indexOf(code) !== -1;
+    $scope.processErrors(code, discountInfo, isCodeValid);
+    if (isCodeValid && discountInfo[code].condition) $scope.applyDiscount(discountInfo[code].discount, code)
     $scope.discountCode = '';
   };
 
@@ -79,10 +79,11 @@ retailerApp.controller('MainCtrl', ['$scope', 'Item', 'Discount', function($scop
     if (discountInfo[$scope.activeDiscount].condition) return true;
   };
 
-  $scope.processErrors = function(code, discountInfo) {
+  $scope.processErrors = function(code, discountInfo, isCodeValid) {
     $scope.errors = [];
-    if (Object.keys(discountInfo).indexOf(code) === -1) $scope.errors.push('Invalid code');
+    if (!isCodeValid) $scope.errors.push('Invalid code');
     if ($scope.discount > 0) $scope.errors.push('You have already redeemed a code');
+    if (isCodeValid && discountInfo[code].condition === false) $scope.errors.push('Condition not met');
   };
 
 }]);

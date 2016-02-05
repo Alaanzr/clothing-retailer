@@ -196,16 +196,23 @@ describe('MainCtrl', function() {
         scope.addItem(item1);
       });
 
-      it('should contain an error when an invalid code is used', function() {
+      it('should raise an error when an invalid code is used', function() {
         scope.processDiscount('INVALID');
         expect(scope.errors[0]).toBe('Invalid code');
       });
 
-      it('should contain an error when a user attempts to redeem more than one code', function() {
+      it('should raise an error when a user attempts to redeem more than one code', function() {
         scope.processDiscount('FIVE');
         scope.processDiscount('TEN');
         expect(scope.errors[0]).toBe('You have already redeemed a code');
       });
+
+      it('should raise an error when a voucher condition is not met', function() {
+        scope.removeItem(item1);
+        scope.processDiscount('FIVE');
+        expect(scope.errors[0]).toBe('Condition not met');
+      });
+
     });
   });
 });
