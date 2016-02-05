@@ -73,6 +73,11 @@
   font-size: 1.5em;
 }
 
+.strike {
+  text-decoration: line-through;
+  color:red;
+}
+
 
 ::-webkit-input-placeholder { opacity:1; -webkit-transition: opacity 0.5s; transition: opacity 0.5s; }
 :-moz-placeholder { opacity:1; -moz-transition: opacity 0.5s; transition: opacity 0.5s; }

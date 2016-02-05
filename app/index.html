@@ -34,7 +34,10 @@
           <li class="list-group-item col-md-3" ng-repeat="item in items">
             <img class="img" ng-src="img/placeholder.png" alt="" />
             <p ng-bind="item.productName"></p>
-            <p ng-bind-template="£{{item.price.toFixed(2)}}"></p>
+            <p><span class="strike" ng-show="item.originalPrice" ng-bind-template="£{{item.originalPrice.toFixed(2)}}"></span>
+              <span ng-show="item.originalPrice">&nbsp;</span>
+              <span ng-bind-template="£{{item.price.toFixed(2)}}"></span>
+            </p>
             <p ng-bind="item.category"></p>
             <p> In stock: <span ng-bind="item.quantityInStock"></span></p>
             <button class="btn btn-danger" ng-click="addItem(item)" ng-show="isInStock(item)"> Add to basket</button>
@@ -51,7 +54,7 @@
             </li>
           </ul>
           <hr>
-          <input type="text" placeholder="Insert voucher code" ng-model="discountCode">&nbsp
+          <input type="text" placeholder="Insert voucher code" ng-model="discountCode">&nbsp;
           <button class="btn btn-info btn-block" type="button" ng-click=processDiscount(discountCode)>Redeem Voucher</button>
           <br>
           <br>

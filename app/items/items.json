@@ -50,7 +50,8 @@
   {
     "productName": "Fine Stripe Short Sleeve Shirt, Green",
     "category": "Men's Casualwear",
-    "price": [49.99, 39.99],
+    "price": 39.99,
+    "originalPrice": 49.99,
     "quantityInStock": 9
   },
   {
