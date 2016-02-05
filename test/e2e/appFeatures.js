@@ -52,13 +52,30 @@ describe('Retailer App', function() {
       expect(total.getText()).toBe('£99.00');
     });
 
-    it('should apply a £5 discount', function() {
-      addToBasket.click();
-      discountCode.sendKeys('FIVE');
-      redeemVoucher.click();
-      expect(total.getText()).toBe('£94.00');
+    describe('Applying discounts', function() {
+
+      beforeEach(function() {
+        addToBasket.click();
+      });
+
+      it('should apply a £5 discount', function() {
+        discountCode.sendKeys('FIVE');
+        redeemVoucher.click();
+        expect(total.getText()).toBe('£94.00');
+      });
+
+      it('should apply a £10 discount', function() {
+        discountCode.sendKeys('TEN');
+        redeemVoucher.click();
+        expect(total.getText()).toBe('£89.00');
+      });
+
+      it('should apply a £15 discount', function() {
+        discountCode.sendKeys('FIFTEEN');
+        redeemVoucher.click();
+        expect(total.getText()).toBe('£84.00');
+      });
+
     });
-
   });
-
 });
