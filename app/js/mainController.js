@@ -24,9 +24,9 @@ retailerApp.controller('MainCtrl', ['$scope', 'Item', 'Discount', function($scop
   $scope.processDiscount = function(code) {
     var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
     var isCodeValid = Object.keys(discountInfo).indexOf(code) !== -1 && discountInfo[code].condition;
+    $scope.processErrors(code, discountInfo);
     if (isCodeValid) $scope.applyDiscount(discountInfo[code].discount, code)
     $scope.discountCode = '';
-    $scope.processErrors(code, discountInfo);
   };
 
   // PRIVATE
