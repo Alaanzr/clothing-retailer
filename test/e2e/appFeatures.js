@@ -43,7 +43,7 @@ describe('Retailer App', function() {
     })
 
     it('should display the correct quantity', function() {
-      expect(retrieveData('quantityInStock')).toEqual('5');
+      expect(retrieveData('quantityInStock')).toEqual('In Stock: 5');
     })
 
     it('should show a total of £0.00 initially', function() {

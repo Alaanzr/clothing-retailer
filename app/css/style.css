@@ -1,38 +1,26 @@
-.navbar {
-  border-radius: 0;
-  min-height: 10em;
-}
-
-.bg {
-  background: #eceef0;
-  padding: 1em;
-}
-
 .items .list-group-item {
   margin: 0.1em;
   min-height: 20em;
   min-width: 20em;
 }
 
-.content .cart {
-  background: #d9534f;
-  color: #fff;
+.cart {
+  background: #eceef0;
   padding: 1em;
   height: 100%;
 }
 
-.cart ul {
+.cart .list-group {
   list-style: none;
   padding: 0;
   color: #000;
 }
 
-.cart li {
+.cart .list-group-item {
   padding: 1em;
-  margin-bottom: 0.5em;
 }
 
-.errors li {
+.errors span {
   height: 2.5em;
   width: 100%;
   padding: 0.3em;
@@ -73,11 +61,6 @@
   font-size: 1.5em;
 }
 
-.strike {
-  text-decoration: line-through;
-  color:red;
-}
-
 
 ::-webkit-input-placeholder { opacity:1; -webkit-transition: opacity 0.5s; transition: opacity 0.5s; }
 :-moz-placeholder { opacity:1; -moz-transition: opacity 0.5s; transition: opacity 0.5s; }
@@ -88,3 +71,59 @@
 *:focus:-moz-placeholder { opacity:0; }
 *:focus::-moz-placeholder { opacity:0; }
 *:focus:-ms-input-placeholder { opacity:0; }
+
+
+body {
+    padding-top: 70px;
+}
+
+.slide-image {
+    width: 100%;
+}
+
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+.caption {
+    height: 10em;
+    overflow: hidden;
+}
+
+.thumbnail img {
+    width: 100%;
+}
+
+.ratings {
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #d17581;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail img:hover {
+  opacity: 0.9;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+
+.strike {
+  color: red;
+  text-decoration: line-through;
+}

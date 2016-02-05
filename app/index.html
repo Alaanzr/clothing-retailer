@@ -6,6 +6,8 @@
   <title>Clothing Retailer</title>
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="js/app.js"></script>
@@ -15,67 +17,117 @@
 </head>
 
 <body ng-controller="MainCtrl">
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+
       <div class="navbar-header">
-        <a class="navbar-brand" href="#"> CLOTHING RETAILER</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Clothing Retailer</a>
       </div>
-      <div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
+          <li>
+            <a href="#">About</a>
+          </li>
+          <li>
+            <a href="#">Products</a>
+          </li>
+          <li>
+            <a href="#">Contact</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <div class="bg">
-    <div class="container content">
-      <div class="row">
-        <ul class="items list-group col-md-9">
-          <li class="list-group-item col-md-3" ng-repeat="item in items">
-            <img class="img" ng-src="img/placeholder.png" alt="" />
-            <p ng-bind="item.productName"></p>
-            <p><span class="strike" ng-show="item.originalPrice" ng-bind-template="£{{item.originalPrice.toFixed(2)}}"></span>
-              <span ng-show="item.originalPrice">&nbsp;</span>
-              <span ng-bind-template="£{{item.price.toFixed(2)}}"></span>
-            </p>
-            <p ng-bind="item.category"></p>
-            <p> In stock: <span ng-bind="item.quantityInStock"></span></p>
-            <button class="btn btn-danger" ng-click="addItem(item)" ng-show="isInStock(item)"> Add to basket</button>
-            <button class="btn btn-danger" ng-hide="isInStock(item)" data-ng-disabled="true"> Out of Stock</button>
-          </li>
-        </ul>
-        <div class="cart col-md-3">
-          <h2 class="heading">Cart</h2>
-          <ul class="cart-items list-group">
-            <li class="list-group-item" ng-repeat="item in cart track by $index">
-              <span ng-bind-template="{{item.productName}} x "></span><span ng-bind="item.quantityOrdered"></span>
-              <br>
-              <button class="btn btn-info btn-block" ng-click=removeItem(item)> Remove from cart </button>
-            </li>
-          </ul>
-          <hr>
-          <input type="text" placeholder="Insert voucher code" ng-model="discountCode">&nbsp;
-          <button class="btn btn-info btn-block" type="button" ng-click=processDiscount(discountCode)>Redeem Voucher</button>
-          <br>
-          <br>
-          <div class="errors" ng-show="errors.length > 0">
-            <ul class="list-group">
-              <li class="list-group-item" ng-repeat="error in errors">
-                {{error}}
-              </li>
-            </ul>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="row carousel-holder">
+          <div class="col-md-12">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="item active">
+                  <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                </div>
+                <div class="item">
+                  <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                </div>
+              </div>
+              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+              </a>
+            </div>
           </div>
-          <div class="cart-total">
-            <p class="heading">Total: </p>
-            <p class="sub-heading" ng-bind-template="£{{total.toFixed(2)}}"></p>
-            <p class="discount" ng-show="discount > 0"> Discount applied: £<span ng-bind="discount"></span></p>
-          </div>
+        </div>
 
+        <div class="row">
+          <div class="col-sm-4 col-lg-4 col-md-4" ng-repeat="item in items">
+            <div class="thumbnail">
+              <img src="img/placeholder.png" alt="">
+              <div class="caption">
+                <h4 class="pull-right"><span class="strike" ng-show="item.originalPrice" ng-bind-template="£{{item.originalPrice.toFixed(2)}}"></span>
+                <span ng-show="item.originalPrice">&nbsp;</span>
+                <span ng-bind-template="£{{item.price.toFixed(2)}}"></span>
+                </h4>
+                <h4 ng-bind="item.productName"><a href="#"></a></h4>
+                <p ng-bind="item.category"></p>
+                <p ng-bind-template="In Stock: {{item.quantityInStock}}"></p>
+              </div>
+              <div class="ratings">
+                <p>
+                  <button class="btn btn-danger" ng-click="addItem(item)" ng-show="isInStock(item)">Add to basket</button>
+                  <button class="btn btn-danger" ng-hide="isInStock(item)" data-ng-disabled="true">Out of Stock</button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart col-md-3">
+        <p class="heading">Cart</p>
+        <div class="list-group cart-items">
+          <div class="list-group-item" ng-repeat="item in cart track by $index">
+            <span ng-bind-template="{{item.productName}} x "></span><span ng-bind="item.quantityOrdered"></span>
+            <br>
+            <button class="btn btn-info btn-block" ng-click=removeItem(item)> Remove from cart </button>
+          </div>
+        </div>
+        <hr>
+        <input type="text" placeholder="Insert voucher code" ng-model="discountCode">&nbsp;
+        <button class="btn btn-info btn-block" type="button" ng-click=processDiscount(discountCode)>Redeem Voucher</button>
+        <br>
+        <br>
+        <div class="errors list-group" ng-show="errors.length > 0">
+          <div class="list-group-item" ng-repeat="error in errors">
+            <span ng-bind="error">
+          </div>
+        </div>
+        <div class="cart-total">
+          <p class="heading">Total: </p>
+          <p class="sub-heading" ng-bind-template="£{{total.toFixed(2)}}"></p>
+          <p class="discount" ng-show="discount > 0"> Discount applied: £<span ng-bind="discount"></span></p>
+          </div>
           <a href="#" class="btn btn-info btn-block" data-ng-disabled="cart.length === 0">Checkout</a>
         </div>
       </div>
     </div>
-  </div>
+
 </body>
 
 </html>

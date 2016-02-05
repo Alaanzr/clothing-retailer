@@ -91,4 +91,4 @@ For this project, the SOLID principles were at the forefront of my mind. Althoug
 
 Given the above, I attempted to extract data-centric information out of my controller and into external Services. Services were built for retrieving product data and for calculating discounts; in particular, the Discount factory has been crafted with extensibility in mind (additional voucher codes need only be added to the existing object with conditions and discount numbers specified).
 
-On the front-end, I opted to use Bootstrap to achieve a responsive design. I also decided that, given that there was no scope for building a checkout page for this project, that item quantities would be reduced when added to a user's cart.
+On the front-end, I opted to use Bootstrap to achieve a responsive design. I also decided that, given that there was no scope for building a checkout page for this project, that item quantities would be reduced when added to a user's cart. On that note, please be aware that the navigational items and checkout button are simply for aesthetic purposes and serve no function.
