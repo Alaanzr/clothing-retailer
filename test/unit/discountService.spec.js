@@ -1,6 +1,6 @@
-'use strict';
-
 describe('Discount', function() {
+
+  'use strict';
 
   beforeEach(module('retailerApp'));
 

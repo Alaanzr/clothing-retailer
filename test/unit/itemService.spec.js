@@ -1,6 +1,6 @@
-'use strict';
-
 describe('Item', function() {
+
+  'use strict';
 
   beforeEach(module('retailerApp'));
 

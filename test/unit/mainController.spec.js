@@ -1,6 +1,6 @@
-'use strict';
-
 describe('MainCtrl', function() {
+
+  'use strict';
 
   var ctrl, $httpBackend;
 
