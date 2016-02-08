@@ -93,6 +93,8 @@ Given the above, I attempted to extract data-centric information out of my contr
 
 On the front-end, I opted to use Bootstrap to achieve a responsive design. I also decided that, given that there was no scope for building a checkout page for this project, that item quantities would be reduced when added to a user's cart. On that note, please be aware that the navigational items and checkout button are simply for aesthetic purposes and serve no function.
 
+Best practices were followed in line with the Angular styleguide (https://github.com/johnpapa/angular-styleguide). More specifically, Immediately Invoked Function Expressions (IIFEs) were applied to remove variables from the global scope, helping to avoid variable collisions by providing variable scope for each file.
+
 ## Voucher Codes
 FIVE
 

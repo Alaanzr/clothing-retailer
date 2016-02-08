@@ -1,89 +1,93 @@
-retailerApp.controller('MainCtrl', ['$scope', 'Item', 'Discount', function($scope, Item, Discount) {
+(function() {
+  'use strict';
 
-  $scope.items = Item.query();
-  $scope.total = 0;
-  $scope.discount = 0;
-  $scope.cart = [];
-  $scope.categoriesInCart = [];
+  angular.module('retailerApp').controller('MainCtrl', ['$scope', 'Item', 'Discount', function($scope, Item, Discount) {
 
-  $scope.addItem = function(item) {
-    $scope.itemPropertiesAdd(item);
-    $scope.addToCart(item);
-  };
+    $scope.items = Item.query();
+    $scope.total = 0;
+    $scope.discount = 0;
+    $scope.cart = [];
+    $scope.categoriesInCart = [];
 
-  $scope.removeItem = function(item) {
-    $scope.removeFromCart(item);
-    $scope.itemPropertiesRemove(item);
-    $scope.revertDiscounts();
-  };
-
-  $scope.isInStock = function(item) {
-    return item.quantityInStock > 0 ? true : false;
-  };
-
-  $scope.processDiscount = function(code) {
-    var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
-    var isCodeValid = Object.keys(discountInfo).indexOf(code) !== -1;
-    $scope.processErrors(code, discountInfo, isCodeValid);
-    if (isCodeValid && discountInfo[code].condition) $scope.applyDiscount(discountInfo[code].discount, code)
-    $scope.discountCode = '';
-  };
-
-  // PRIVATE
-
-  $scope.itemPropertiesAdd = function(item) {
-    item.quantityInStock -= 1;
-    $scope.isInCart(item) ? item.quantityOrdered += 1 : item.quantityOrdered = 1;
-  };
-
-  $scope.addToCart = function(item) {
-    $scope.total += item.price;
-    $scope.categoriesInCart.push(item.category);
-    if (!$scope.isInCart(item)) $scope.cart.push(item);
-  };
-
-  $scope.removeFromCart = function(item) {
-    $scope.cart.splice($scope.cart.indexOf(item), 1);
-    $scope.categoriesInCart.splice($scope.categoriesInCart.indexOf(item.category), 1);
-    $scope.total -= (item.price * item.quantityOrdered);
-  };
-
-  $scope.revertDiscounts = function() {
-    if ($scope.discount > 0 && $scope.verifyDiscount() !== true) {
-      $scope.total += $scope.discount;
-      $scope.discount = 0;
-    }
-  };
-
-  $scope.itemPropertiesRemove = function(item) {
-    item.quantityInStock += item.quantityOrdered;
-    item.quantityOrdered = 0;
-  };
-
-  $scope.isInCart = function(item) {
-    for (var i = 0; i < $scope.cart.length; i++) {
-      if ($scope.cart[i] === item) return true;
+    $scope.addItem = function(item) {
+      $scope.itemPropertiesAdd(item);
+      $scope.addToCart(item);
     };
-  };
 
-  $scope.applyDiscount = function(discount, key) {
-    if ($scope.total > discount && $scope.discount === 0) {
-      $scope.discount += discount;
-      $scope.total -= discount;
-      $scope.activeDiscount = key;
-    }
-  };
+    $scope.removeItem = function(item) {
+      $scope.removeFromCart(item);
+      $scope.itemPropertiesRemove(item);
+      $scope.revertDiscounts();
+    };
 
-  $scope.verifyDiscount = function() {
-    var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
-    if (discountInfo[$scope.activeDiscount].condition) return true;
-  };
+    $scope.isInStock = function(item) {
+      return item.quantityInStock > 0 ? true : false;
+    };
 
-  $scope.processErrors = function(code, discountInfo, isCodeValid) {
-    $scope.errors = [];
-    if (!isCodeValid) $scope.errors.push('Invalid code');
-    if ($scope.discount > 0) $scope.errors.push('You have already redeemed a code');
-    if (isCodeValid && discountInfo[code].condition === false) $scope.errors.push('Condition not met');
-  };
+    $scope.processDiscount = function(code) {
+      var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
+      var isCodeValid = Object.keys(discountInfo).indexOf(code) !== -1;
+      $scope.processErrors(code, discountInfo, isCodeValid);
+      if (isCodeValid && discountInfo[code].condition) $scope.applyDiscount(discountInfo[code].discount, code);
+      $scope.discountCode = '';
+    };
 
-}]);
+    // PRIVATE
+
+    $scope.itemPropertiesAdd = function(item) {
+      item.quantityInStock -= 1;
+      return $scope.isInCart(item) ? item.quantityOrdered += 1 : item.quantityOrdered = 1;
+    };
+
+    $scope.addToCart = function(item) {
+      $scope.total += item.price;
+      $scope.categoriesInCart.push(item.category);
+      if (!$scope.isInCart(item)) $scope.cart.push(item);
+    };
+
+    $scope.removeFromCart = function(item) {
+      $scope.cart.splice($scope.cart.indexOf(item), 1);
+      $scope.categoriesInCart.splice($scope.categoriesInCart.indexOf(item.category), 1);
+      $scope.total -= (item.price * item.quantityOrdered);
+    };
+
+    $scope.revertDiscounts = function() {
+      if ($scope.discount > 0 && $scope.verifyDiscount() !== true) {
+        $scope.total += $scope.discount;
+        $scope.discount = 0;
+      }
+    };
+
+    $scope.itemPropertiesRemove = function(item) {
+      item.quantityInStock += item.quantityOrdered;
+      item.quantityOrdered = 0;
+    };
+
+    $scope.isInCart = function(item) {
+      for (var i = 0; i < $scope.cart.length; i++) {
+        if ($scope.cart[i] === item) return true;
+      }
+    };
+
+    $scope.applyDiscount = function(discount, key) {
+      if ($scope.total > discount && $scope.discount === 0) {
+        $scope.discount += discount;
+        $scope.total -= discount;
+        $scope.activeDiscount = key;
+      }
+    };
+
+    $scope.verifyDiscount = function() {
+      var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
+      if (discountInfo[$scope.activeDiscount].condition) return true;
+    };
+
+    $scope.processErrors = function(code, discountInfo, isCodeValid) {
+      $scope.errors = [];
+      if (!isCodeValid) $scope.errors.push('Invalid code');
+      if ($scope.discount > 0) $scope.errors.push('You have already redeemed a code');
+      if (isCodeValid && discountInfo[code].condition === false) $scope.errors.push('Condition not met');
+    };
+
+  }]);
+})();

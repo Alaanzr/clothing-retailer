@@ -1,3 +1,5 @@
+'use strict';
+
 describe('MainCtrl', function() {
 
   var scope, ctrl, $httpBackend;
@@ -14,7 +16,7 @@ describe('MainCtrl', function() {
     category: 'Women\'s Casualwear',
     price: 167.00,
     quantityInStock: 6
-  }
+  };
 
   var item3 = {
     productName: 'Suede Shoes, Blue',
@@ -32,7 +34,7 @@ describe('MainCtrl', function() {
               pass: angular.equals(actual, expected)
             };
           }
-        }
+        };
       }
     });
   });
@@ -56,7 +58,7 @@ describe('MainCtrl', function() {
     $httpBackend.flush();
     expect(scope.items).toEqualData([
       item1
-    ])
+    ]);
   });
 
   describe('Cart functionality', function() {

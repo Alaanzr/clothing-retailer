@@ -1,10 +1,14 @@
-retailerApp.factory('Item', ['$resource', function($resource) {
+(function() {
+  'use strict';
 
-  return $resource('items/items.json', {}, {
-    query: {
-      method: 'GET',
-      isArray: true
-    },
-  });
+  angular.module('retailerApp').factory('Item', ['$resource', function($resource) {
 
-}]);
+    return $resource('items/items.json', {}, {
+      query: {
+        method: 'GET',
+        isArray: true
+      },
+    });
+
+  }]);
+})();
