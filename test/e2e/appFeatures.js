@@ -1,19 +1,20 @@
 describe('Retailer App', function() {
+  'use strict';
 
-  var itemList = element.all(by.repeater('item in items'));
-  var cartItems = element.all(by.repeater('item in cart'));
-  var total = element(by.binding('total.toFixed(2)'));
+  var itemList = element.all(by.repeater('item in main.items'));
+  var cartItems = element.all(by.repeater('item in main.cart'));
+  var total = element(by.binding('main.total.toFixed(2)'));
   var addToBasket = element.all(by.buttonText('Add to basket')).first();
   var removeFromCart = element.all(by.buttonText('Remove from cart')).first();
   var redeemVoucher = element(by.buttonText('Redeem Voucher'));
-  var discountCode = element(by.model('discountCode'));
-  var error = element(by.repeater('error in errors').row(0));
+  var discountCode = element(by.model('main.discountCode'));
+  var error = element(by.repeater('error in main.errors').row(0));
 
   function retrieveData(type) {
-    return element.all(by.repeater('item in items').column('item.' + type)).then(function(item) {
+    return element.all(by.repeater('item in main.items').column('item.' + type)).then(function(item) {
       return item[0].getText();
     });
-  };
+  }
 
   describe('MainCtrl', function() {
 
@@ -36,15 +37,15 @@ describe('Retailer App', function() {
 
     it('should display the correct price', function() {
       expect(retrieveData('price')).toEqual('£99.00');
-    })
+    });
 
     it('should display the correct category', function() {
       expect(retrieveData('category')).toEqual('Women\'s Footwear');
-    })
+    });
 
     it('should display the correct quantity', function() {
       expect(retrieveData('quantityInStock')).toEqual('In Stock: 5');
-    })
+    });
 
     it('should show a total of £0.00 initially', function() {
       expect(total.getText()).toBe('£0.00');

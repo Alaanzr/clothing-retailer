@@ -95,6 +95,8 @@ On the front-end, I opted to use Bootstrap to achieve a responsive design. I als
 
 Best practices were followed in line with the Angular styleguide (https://github.com/johnpapa/angular-styleguide). More specifically, Immediately Invoked Function Expressions (IIFEs) were applied to remove variables from the global scope, helping to avoid variable collisions by providing variable scope for each file.
 
+In the first iteration of this project I opted to use the ```controller with $scope``` syntax, however have since moved to the ```controllerAs``` syntax. This helps avoid having to use $parent calls in Views with nested controllers and helps avoid the temptation of using $scope methods inside a controller when it may otherwise be better to avoid them or move the method to a factory.
+
 ## Voucher Codes
 FIVE
 

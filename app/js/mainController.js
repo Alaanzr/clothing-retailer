@@ -1,92 +1,93 @@
 (function() {
   'use strict';
 
-  angular.module('retailerApp').controller('MainCtrl', ['$scope', 'Item', 'Discount', function($scope, Item, Discount) {
+  angular.module('retailerApp').controller('MainCtrl', ['Item', 'Discount', function(Item, Discount) {
+    var vm = this;
 
-    $scope.items = Item.query();
-    $scope.total = 0;
-    $scope.discount = 0;
-    $scope.cart = [];
-    $scope.categoriesInCart = [];
+    vm.items = Item.query();
+    vm.total = 0;
+    vm.discount = 0;
+    vm.cart = [];
+    vm.categoriesInCart = [];
 
-    $scope.addItem = function(item) {
-      $scope.itemPropertiesAdd(item);
-      $scope.addToCart(item);
+    vm.addItem = function(item) {
+      vm.itemPropertiesAdd(item);
+      vm.addToCart(item);
     };
 
-    $scope.removeItem = function(item) {
-      $scope.removeFromCart(item);
-      $scope.itemPropertiesRemove(item);
-      $scope.revertDiscounts();
+    vm.removeItem = function(item) {
+      vm.removeFromCart(item);
+      vm.itemPropertiesRemove(item);
+      vm.revertDiscounts();
     };
 
-    $scope.isInStock = function(item) {
+    vm.isInStock = function(item) {
       return item.quantityInStock > 0 ? true : false;
     };
 
-    $scope.processDiscount = function(code) {
-      var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
+    vm.processDiscount = function(code) {
+      var discountInfo = Discount.discountInfo(vm.total, vm.categoriesInCart);
       var isCodeValid = Object.keys(discountInfo).indexOf(code) !== -1;
-      $scope.processErrors(code, discountInfo, isCodeValid);
-      if (isCodeValid && discountInfo[code].condition) $scope.applyDiscount(discountInfo[code].discount, code);
-      $scope.discountCode = '';
+      vm.processErrors(code, discountInfo, isCodeValid);
+      if (isCodeValid && discountInfo[code].condition) vm.applyDiscount(discountInfo[code].discount, code);
+      vm.discountCode = '';
     };
 
     // PRIVATE
 
-    $scope.itemPropertiesAdd = function(item) {
+    vm.itemPropertiesAdd = function(item) {
       item.quantityInStock -= 1;
-      return $scope.isInCart(item) ? item.quantityOrdered += 1 : item.quantityOrdered = 1;
+      return vm.isInCart(item) ? item.quantityOrdered += 1 : item.quantityOrdered = 1;
     };
 
-    $scope.addToCart = function(item) {
-      $scope.total += item.price;
-      $scope.categoriesInCart.push(item.category);
-      if (!$scope.isInCart(item)) $scope.cart.push(item);
+    vm.addToCart = function(item) {
+      vm.total += item.price;
+      vm.categoriesInCart.push(item.category);
+      if (!vm.isInCart(item)) vm.cart.push(item);
     };
 
-    $scope.removeFromCart = function(item) {
-      $scope.cart.splice($scope.cart.indexOf(item), 1);
-      $scope.categoriesInCart.splice($scope.categoriesInCart.indexOf(item.category), 1);
-      $scope.total -= (item.price * item.quantityOrdered);
+    vm.removeFromCart = function(item) {
+      vm.cart.splice(vm.cart.indexOf(item), 1);
+      vm.categoriesInCart.splice(vm.categoriesInCart.indexOf(item.category), 1);
+      vm.total -= (item.price * item.quantityOrdered);
     };
 
-    $scope.revertDiscounts = function() {
-      if ($scope.discount > 0 && $scope.verifyDiscount() !== true) {
-        $scope.total += $scope.discount;
-        $scope.discount = 0;
+    vm.revertDiscounts = function() {
+      if (vm.discount > 0 && vm.verifyDiscount() !== true) {
+        vm.total += vm.discount;
+        vm.discount = 0;
       }
     };
 
-    $scope.itemPropertiesRemove = function(item) {
+    vm.itemPropertiesRemove = function(item) {
       item.quantityInStock += item.quantityOrdered;
       item.quantityOrdered = 0;
     };
 
-    $scope.isInCart = function(item) {
-      for (var i = 0; i < $scope.cart.length; i++) {
-        if ($scope.cart[i] === item) return true;
+    vm.isInCart = function(item) {
+      for (var i = 0; i < vm.cart.length; i++) {
+        if (vm.cart[i] === item) return true;
       }
     };
 
-    $scope.applyDiscount = function(discount, key) {
-      if ($scope.total > discount && $scope.discount === 0) {
-        $scope.discount += discount;
-        $scope.total -= discount;
-        $scope.activeDiscount = key;
+    vm.applyDiscount = function(discount, key) {
+      if (vm.total > discount && vm.discount === 0) {
+        vm.discount += discount;
+        vm.total -= discount;
+        vm.activeDiscount = key;
       }
     };
 
-    $scope.verifyDiscount = function() {
-      var discountInfo = Discount.discountInfo($scope.total, $scope.categoriesInCart);
-      if (discountInfo[$scope.activeDiscount].condition) return true;
+    vm.verifyDiscount = function() {
+      var discountInfo = Discount.discountInfo(vm.total, vm.categoriesInCart);
+      if (discountInfo[vm.activeDiscount].condition) return true;
     };
 
-    $scope.processErrors = function(code, discountInfo, isCodeValid) {
-      $scope.errors = [];
-      if (!isCodeValid) $scope.errors.push('Invalid code');
-      if ($scope.discount > 0) $scope.errors.push('You have already redeemed a code');
-      if (isCodeValid && discountInfo[code].condition === false) $scope.errors.push('Condition not met');
+    vm.processErrors = function(code, discountInfo, isCodeValid) {
+      vm.errors = [];
+      if (!isCodeValid) vm.errors.push('Invalid code');
+      if (vm.discount > 0) vm.errors.push('You have already redeemed a code');
+      if (isCodeValid && discountInfo[code].condition === false) vm.errors.push('Condition not met');
     };
 
   }]);

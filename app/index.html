@@ -16,7 +16,7 @@
   <script src="js/discountService.js"></script>
 </head>
 
-<body ng-controller="MainCtrl">
+<body ng-controller="MainCtrl as main">
 
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -76,7 +76,7 @@
         </div>
 
         <div class="row">
-          <div class="col-sm-4 col-lg-4 col-md-4" ng-repeat="item in items">
+          <div class="col-sm-4 col-lg-4 col-md-4" ng-repeat="item in main.items">
             <div class="thumbnail">
               <img ng-show="item.image" ng-src="img/{{item.image}}" alt="">
               <img ng-show ="!item.image" ng-src="img/placeholder.png" alt="" />
@@ -91,8 +91,8 @@
               </div>
               <div class="ratings">
                 <p>
-                  <button class="btn btn-danger" ng-click="addItem(item)" ng-show="isInStock(item)">Add to basket</button>
-                  <button class="btn btn-danger" ng-hide="isInStock(item)" data-ng-disabled="true">Out of Stock</button>
+                  <button class="btn btn-danger" ng-click="main.addItem(item)" ng-show="main.isInStock(item)">Add to basket</button>
+                  <button class="btn btn-danger" ng-hide="main.isInStock(item)" data-ng-disabled="true">Out of Stock</button>
                 </p>
               </div>
             </div>
@@ -103,28 +103,28 @@
       <div class="cart col-md-3">
         <p class="heading">Cart</p>
         <div class="list-group cart-items">
-          <div class="list-group-item" ng-repeat="item in cart track by $index">
+          <div class="list-group-item" ng-repeat="item in main.cart track by $index">
             <span ng-bind-template="{{item.productName}} x "></span><span ng-bind="item.quantityOrdered"></span>
             <br>
-            <button class="btn btn-info btn-block" ng-click=removeItem(item)> Remove from cart </button>
+            <button class="btn btn-info btn-block" ng-click=main.removeItem(item)> Remove from cart </button>
           </div>
         </div>
         <hr>
-        <input type="text" placeholder="Insert voucher code" ng-model="discountCode">&nbsp;
-        <button class="btn btn-info btn-block" type="button" ng-click=processDiscount(discountCode)>Redeem Voucher</button>
+        <input type="text" placeholder="Insert voucher code" ng-model="main.discountCode">&nbsp;
+        <button class="btn btn-info btn-block" type="button" ng-click=main.processDiscount(main.discountCode)>Redeem Voucher</button>
         <br>
         <br>
-        <div class="errors list-group" ng-show="errors.length > 0">
-          <div class="list-group-item" ng-repeat="error in errors">
+        <div class="errors list-group" ng-show="main.errors.length > 0">
+          <div class="list-group-item" ng-repeat="error in main.errors">
             <span ng-bind="error">
           </div>
         </div>
         <div class="cart-total">
           <p class="heading">Total: </p>
-          <p class="sub-heading" ng-bind-template="£{{total.toFixed(2)}}"></p>
-          <p class="discount" ng-show="discount > 0"> Discount applied: £<span ng-bind="discount"></span></p>
+          <p class="sub-heading" ng-bind-template="£{{main.total.toFixed(2)}}"></p>
+          <p class="discount" ng-show="main.discount > 0"> Discount applied: £<span ng-bind="main.discount"></span></p>
           </div>
-          <a href="#" class="btn btn-info btn-block" data-ng-disabled="cart.length === 0">Checkout</a>
+          <a href="#" class="btn btn-info btn-block" data-ng-disabled="main.cart.length === 0">Checkout</a>
         </div>
       </div>
     </div>
