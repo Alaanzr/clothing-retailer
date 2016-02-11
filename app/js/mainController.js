@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('retailerApp').controller('MainCtrl', ['Item', 'Discount', function(Item, Discount) {
+  angular.module('retailerApp').controller('MainCtrl', ['Item', 'Discount', 'SweetAlert', function(Item, Discount, SweetAlert) {
     var vm = this;
 
     vm.items = Item.query();
@@ -75,6 +75,7 @@
         vm.discount += discount;
         vm.total -= discount;
         vm.activeDiscount = key;
+        SweetAlert.saSuccess(vm.discount);
       }
     };
 
@@ -88,6 +89,7 @@
       if (!isCodeValid) vm.errors.push('Invalid code');
       if (vm.discount > 0) vm.errors.push('You have already redeemed a code');
       if (isCodeValid && discountInfo[code].condition === false) vm.errors.push('Condition not met');
+      if (vm.errors.length > 0) SweetAlert.saError(vm.errors);
     };
 
   }]);

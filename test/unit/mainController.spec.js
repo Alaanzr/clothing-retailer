@@ -2,7 +2,7 @@ describe('MainCtrl', function() {
 
   'use strict';
 
-  var ctrl, $httpBackend;
+  var ctrl, $httpBackend, $window;
 
   var item1 = {
     productName: 'Suede Shoes, Blue',
@@ -41,9 +41,10 @@ describe('MainCtrl', function() {
 
   beforeEach(module('retailerApp'));
 
-  beforeEach(inject(function($controller, _$httpBackend_) {
+  beforeEach(inject(function($controller, _$httpBackend_, _$window_) {
     $httpBackend = _$httpBackend_;
     $httpBackend.expectGET('items/items.json').respond([item1]);
+    $window = _$window_;
     ctrl = $controller('MainCtrl');
   }));
 
@@ -117,6 +118,10 @@ describe('MainCtrl', function() {
         item1.quantityInStock = 4;
         item2.quantityInStock = 6;
         item3.quantityInStock = 4;
+
+        $window.swal= function() {
+          spyOn($window, 'swal');
+        };
       });
 
       it('should not allow the user to apply a discount when their order total is £0', function() {

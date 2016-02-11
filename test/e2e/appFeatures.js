@@ -8,7 +8,8 @@ describe('Retailer App', function() {
   var removeFromCart = element.all(by.buttonText('Remove from cart')).first();
   var redeemVoucher = element(by.buttonText('Redeem Voucher'));
   var discountCode = element(by.model('main.discountCode'));
-  var error = element(by.repeater('error in main.errors').row(0));
+  var confirm = element(by.css('.confirm'));
+  var error = element(by.css('.sweet-alert'));
 
   function retrieveData(type) {
     return element.all(by.repeater('item in main.items').column('item.' + type)).then(function(item) {
@@ -83,15 +84,16 @@ describe('Retailer App', function() {
       it('should raise an error when an invalid code is used', function() {
         discountCode.sendKeys('INVALID');
         redeemVoucher.click();
-        expect(error.getText()).toBe('Invalid code');
+        expect(error.getText()).toContain('Invalid code');
       });
 
       it('should raise an error when multiple valid codes are used', function() {
         discountCode.sendKeys('FIVE');
         redeemVoucher.click();
+        confirm.click();
         discountCode.sendKeys('TEN');
         redeemVoucher.click();
-        expect(error.getText()).toBe('You have already redeemed a code');
+        expect(error.getText()).toContain('You have already redeemed a code');
       });
 
     });
