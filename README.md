@@ -3,6 +3,8 @@ The project is built primarily in Angular, with configuration based on the angul
 
 Third party libraries such as Bootstrap have been used to aid the user experience.
 
+![Screenshot](app/img/screenshot.png)
+
 ## Getting Started (for Mac)
 Close the repository using git (downloadable at http://git-scm.com/):
 
